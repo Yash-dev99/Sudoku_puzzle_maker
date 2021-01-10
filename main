@@ -1,0 +1,20 @@
+#!/bin/sh
+
+while true;
+do
+	start=$(date +%s.%N)
+	./gen > ini;
+	./solver < ini > out;
+	fil="$(echo $(echo "($(date +%s.%N) - $start)*100000"|bc))";
+	echo $fil;
+	sleep 3;
+	if [ -z $(cat out)]; then
+		echo "Not";
+	else
+		touch ./questions/$fil;
+		cat ini > ./questions/$fil;
+		echo "Solution" >> ./questions/$fil;
+		cat out >> ./questions/$fil;
+
+	fi
+done;
